@@ -1,0 +1,6 @@
+logs:
+  - log_file_path: ../data/logs.log
+    warning_threshold: 300
+    error_threshold: 600
+    warning_file_path: ../output/warnings.log
+    error_file_path: ../output/errors.log

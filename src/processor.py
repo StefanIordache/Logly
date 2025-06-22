@@ -1,11 +1,5 @@
 from datetime import datetime
 
-# Warning threshold - 5 minutes = 300 seconds
-WARNING_THRESHOLD = 300
-
-# Error threshold - 10 minutes = 600 seconds
-ERROR_THRESHOLD = 600
-
 """
 Data structures required
    - Active jobs (dictionary)
@@ -41,7 +35,7 @@ Log processing, line by line
         - Append to completed_jobs to keep track of finished tasks
         - Remove ended task from active_jobs (PID might be reused and we cannot leave it in the collection of active jobs)
 """
-def process_logs(logs_filepath, output_warning_filepath, output_error_filepath):
+def process_logs(logs_filepath, warning_threshold, error_threshold, output_warning_filepath, output_error_filepath):
     with open(logs_filepath, "r") as f:
         lines = f.readlines()
         for line in lines:
@@ -61,7 +55,7 @@ def process_logs(logs_filepath, output_warning_filepath, output_error_filepath):
     # Write warnings (wf) and errors (ef) into two different files / streams
     with open(output_warning_filepath, "w") as wf, open(output_error_filepath, "w") as ef:
         for pid, description, start, end, duration in completed_jobs:
-            if duration > ERROR_THRESHOLD:
+            if duration > error_threshold:
                 ef.write(f"[ERROR] {description} (PID {pid}): {int(duration)}s from {start} to {end}\n")
-            elif duration > WARNING_THRESHOLD:
+            elif duration > warning_threshold:
                 wf.write(f"[WARNING] {description} (PID {pid}): {int(duration)}s from {start} to {end}\n")
