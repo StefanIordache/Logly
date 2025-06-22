@@ -6,7 +6,6 @@ Data structures required
    - Active jobs (dictionary)
    - Completed jobs (list)
 """
-#active_jobs = {}
 completed_jobs = []
 
 
@@ -39,6 +38,8 @@ Log processing, line by line
 def process_logs(logs_filepath, offset, active_jobs, batch_size, warning_threshold, error_threshold, output_warning_filepath, output_error_filepath):
     with open(logs_filepath, "r") as f:
         f.seek(offset)
+        
+        # Read on batches even if we already have an offset. This helps with large log files.
         for batch in read_batch(f, batch_size):
             completed_jobs = []
             for line in batch:
