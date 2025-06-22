@@ -28,6 +28,10 @@ def save_state(state):
                                  
 """
 Main function used for log processing
+    - Reads config and state files
+    - Keep running and waits for logs to be processed
+    - Read from file and process new logs only if offset changes
+    - Save state after each processing logs
 """
 def main():
     config = load_config()

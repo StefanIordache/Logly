@@ -6,7 +6,7 @@ Data structures required
    - Active jobs (dictionary)
    - Completed jobs (list)
 """
-active_jobs = {}
+#active_jobs = {}
 completed_jobs = []
 
 
@@ -27,7 +27,7 @@ def parse_time(t):
 
 """
 Log processing, line by line
-    - Try and read line
+    - Try and read line - Updated with offset reading
     - Strip and split each line based on ',' delimiter
     - Extract components: timestamp, description, action and pid
     - Add job into active_jobs dictionary if action is 'START'
@@ -36,7 +36,7 @@ Log processing, line by line
         - Append to completed_jobs to keep track of finished tasks
         - Remove ended task from active_jobs (PID might be reused and we cannot leave it in the collection of active jobs)
 """
-def process_logs(logs_filepath, offset, active, batch_size, warning_threshold, error_threshold, output_warning_filepath, output_error_filepath):
+def process_logs(logs_filepath, offset, active_jobs, batch_size, warning_threshold, error_threshold, output_warning_filepath, output_error_filepath):
     with open(logs_filepath, "r") as f:
         f.seek(offset)
         for batch in read_batch(f, batch_size):
