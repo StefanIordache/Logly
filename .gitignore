@@ -197,3 +197,4 @@ pyrightconfig.json
 
 # Ignore exceptions
 !data/logs.log
+!output/*
